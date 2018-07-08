@@ -9,6 +9,7 @@
     "mobx-react": "^5.2.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-parallax": "^1.8.0",
     "react-scripts-ts": "2.16.0"
   },
   "scripts": {
