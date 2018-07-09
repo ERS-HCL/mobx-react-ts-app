@@ -67,7 +67,9 @@ class StepOne extends React.Component<IStepOneProps, IStepOneState> {
             onChange={this.handleChange}
           />
           <Flex justify="flex-end">
-            <Button onClick={this.handleClose}>SAVE</Button>
+            <Button onClick={this.handleClose} scale={true}>
+              SAVE
+            </Button>
           </Flex>
         </Card>
       </Flex>
