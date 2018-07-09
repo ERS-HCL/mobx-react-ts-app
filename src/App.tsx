@@ -5,7 +5,10 @@ import {
   Section,
   Card,
   Flex,
-  Box
+  Box,
+  Button,
+  Label,
+  Field
 } from '@hackclub/design-system';
 import AppHero from './components/AppHero/AppHero';
 const image1 =
@@ -30,7 +33,15 @@ class App extends React.Component {
             bg="white"
             borderRadius={8}
           >
-            Medium Shadow
+            <Flex align="center">
+              <Label m={3} htmlFor="sample-input">
+                Name
+              </Label>
+              <Field name="fname" placeholder="Zach" />
+            </Flex>
+            <Flex justify="flex-end">
+              <Button>Button</Button>
+            </Flex>
           </Card>
         </Flex>
         <Box p={3} color="white" bg="accent" boxShadowSize="md" my={4}>
