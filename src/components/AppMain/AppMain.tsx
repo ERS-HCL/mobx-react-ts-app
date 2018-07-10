@@ -94,24 +94,22 @@ class AppMain extends React.Component<IAppMainProps, IAppMainState> {
           text={'React Shop'}
           image={image1}
         />
-        <div id="CONTACT_INFO">
-          <Flex bg="smoke" flexDirection="column">
-            <ProductCard onSubmit={this.handleProductSubmit} />
 
-            {this.isCardVisible(OrderStatus.CONTACT_INFO) && (
-              <ContactCard onSubmit={this.handleContactSubmit} />
-            )}
-          </Flex>
-        </div>
-        <div id="PAYMENT_PENDING">
-          <Flex bg="smoke" flexDirection="column">
-            <ProductCard onSubmit={this.handleProductSubmit} />
+        <Flex bg="smoke" flexDirection="column">
+          <ProductCard onSubmit={this.handleProductSubmit} />
 
-            {this.isCardVisible(OrderStatus.PAYMENT_PENDING) && (
-              <ContactCard onSubmit={this.handlePaymentSubmit} />
-            )}
-          </Flex>
-        </div>
+          {!this.isCardVisible(OrderStatus.PRODUCT_SELECTION) && (
+            <div id="CONTACT_INFO">
+              <ContactCard onSubmit={this.handleContactSubmit} key={1} />
+            </div>
+          )}
+
+          {this.isCardVisible(OrderStatus.PAYMENT_PENDING) && (
+            <div id="PAYMENT_PENDING">
+              <ContactCard onSubmit={this.handlePaymentSubmit} key={2} />
+            </div>
+          )}
+        </Flex>
       </div>
     );
   }
