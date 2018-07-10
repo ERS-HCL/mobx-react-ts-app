@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom';
 import { observer, inject } from 'mobx-react';
 import { ShopStore } from '../../stores/shopStore';
 import { IProduct } from '../../models/product';
+import { OrderStatus } from '../../models/order';
 
 const image1 =
   'https://images.unsplash.com/photo-1510166089176-b57564a542b1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=befea110acdbc00f7b94c872cf76f37b';
@@ -23,23 +24,44 @@ interface IAppMainProps {
   shopStore?: ShopStore;
 }
 
+interface IAppMainState {
+  checkedOut: boolean;
+}
+
 @inject('shopStore')
 @observer
-class AppMain extends React.Component<IAppMainProps> {
+class AppMain extends React.Component<IAppMainProps, IAppMainState> {
   state = {
     checkedOut: false
   };
 
   handleProductSubmit = (data: any) => {
-    console.log(data);
+    if (typeof this.props.shopStore !== 'undefined') {
+      this.props.shopStore.setOrderStatus(OrderStatus.CONTACT_INFO);
+    }
   };
 
   handleContactSubmit = (data: any) => {
     console.log(data);
+    if (typeof this.props.shopStore !== 'undefined') {
+      this.props.shopStore.setOrderStatus(OrderStatus.PAYMENT_PENDING);
+    }
+  };
+
+  handlePaymentSubmit = (data: any) => {
     this.setState({
       checkedOut: true
     });
   };
+
+  componentDidUpdate() {
+    if (typeof this.props.shopStore !== 'undefined') {
+      const element: any = document.getElementById(
+        this.props.shopStore.order.status
+      );
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 
   getProductList = (): IProduct[] => {
     if (typeof this.props.shopStore !== 'undefined') {
@@ -48,10 +70,23 @@ class AppMain extends React.Component<IAppMainProps> {
       return [];
     }
   };
+
+  isCardVisible = (status: OrderStatus): boolean => {
+    if (
+      typeof this.props.shopStore !== 'undefined' &&
+      this.props.shopStore.order.status === status
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   public render() {
     const { checkedOut } = this.state;
+
     return (
-      <div>
+      <div id="home">
         {checkedOut && <Redirect to="/thankyou" />}
         <AppHero
           color={'black'}
@@ -59,11 +94,24 @@ class AppMain extends React.Component<IAppMainProps> {
           text={'React Shop'}
           image={image1}
         />
-        <Flex bg="smoke" flexDirection="column">
-          <ProductCard onSubmit={this.handleProductSubmit} />
+        <div id="CONTACT_INFO">
+          <Flex bg="smoke" flexDirection="column">
+            <ProductCard onSubmit={this.handleProductSubmit} />
 
-          <ContactCard onSubmit={this.handleContactSubmit} />
-        </Flex>
+            {this.isCardVisible(OrderStatus.CONTACT_INFO) && (
+              <ContactCard onSubmit={this.handleContactSubmit} />
+            )}
+          </Flex>
+        </div>
+        <div id="PAYMENT_PENDING">
+          <Flex bg="smoke" flexDirection="column">
+            <ProductCard onSubmit={this.handleProductSubmit} />
+
+            {this.isCardVisible(OrderStatus.PAYMENT_PENDING) && (
+              <ContactCard onSubmit={this.handlePaymentSubmit} />
+            )}
+          </Flex>
+        </div>
       </div>
     );
   }

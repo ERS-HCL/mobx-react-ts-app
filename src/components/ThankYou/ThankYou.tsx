@@ -1,15 +1,26 @@
 import * as React from 'react';
 import { BackgroundImage, Text, Button, Flex } from '@hackclub/design-system';
 import { Redirect } from 'react-router-dom';
+import { observer, inject } from 'mobx-react';
+import { ShopStore } from '../../stores/shopStore';
 const image1 =
   'https://images.unsplash.com/photo-1481207727306-1a9f151fca7d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=e026ea3420a71b8cdeb007f06e1f6eb3&auto=format&fix=max';
 
-class ThankYou extends React.Component {
+interface IThankYouProps {
+  shopStore?: ShopStore;
+}
+
+@inject('shopStore')
+@observer
+class ThankYou extends React.Component<IThankYouProps> {
   state = {
     redirect: false
   };
 
   setRedirect = (e: any) => {
+    if (typeof this.props.shopStore !== 'undefined') {
+      this.props.shopStore.initOrder();
+    }
     this.setState({
       redirect: true
     });
