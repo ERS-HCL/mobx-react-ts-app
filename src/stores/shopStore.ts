@@ -15,13 +15,14 @@ export class ShopStore {
       fname: '',
       lname: ''
     } as IContact;
-
     const initialOrder = {
       contact: this.contact,
       payment: undefined,
       product: undefined,
       status: OrderStatus.PRODUCT_SELECTION
     } as IOrder;
+
+    this.order = initialOrder;
 
     reaction(
       () => this.order.status,

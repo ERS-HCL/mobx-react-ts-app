@@ -1,7 +1,8 @@
 import * as React from 'react';
 import AppHero from '../AppHero/AppHero';
-import StepOne from '../StepOne/stepOne';
-import { Flex, Box } from '@hackclub/design-system';
+import ContactCard from '../ContactCard/contactCard';
+import ProductCard from '../ProductCard/productCard';
+import { Flex } from '@hackclub/design-system';
 import { Redirect } from 'react-router-dom';
 import { observer, inject } from 'mobx-react';
 import { ShopStore } from '../../stores/shopStore';
@@ -28,7 +29,12 @@ class AppMain extends React.Component<IAppMainProps> {
   state = {
     checkedOut: false
   };
-  handleSubmit = (data: any) => {
+
+  handleProductSubmit = (data: any) => {
+    console.log(data);
+  };
+
+  handleContactSubmit = (data: any) => {
     console.log(data);
     this.setState({
       checkedOut: true
@@ -44,10 +50,6 @@ class AppMain extends React.Component<IAppMainProps> {
   };
   public render() {
     const { checkedOut } = this.state;
-    const productList = this.getProductList().map(product => (
-      <div key={product.name}>{product.name}</div>
-    ));
-
     return (
       <div>
         {checkedOut && <Redirect to="/thankyou" />}
@@ -57,11 +59,10 @@ class AppMain extends React.Component<IAppMainProps> {
           text={'React Shop'}
           image={image1}
         />
-        {productList}
-        <Flex bg="smoke">
-          <Box px={3} width={1}>
-            <StepOne eventHandler={this.handleSubmit} />
-          </Box>
+        <Flex bg="smoke" flexDirection="column">
+          <ProductCard onSubmit={this.handleProductSubmit} />
+
+          <ContactCard onSubmit={this.handleContactSubmit} />
         </Flex>
       </div>
     );

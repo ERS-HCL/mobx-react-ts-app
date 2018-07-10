@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Flex, Button, Field, Card } from '@hackclub/design-system';
 
-interface IStepOneProps {
-  eventHandler: any;
+interface IContactCardProps {
+  onSubmit: any;
 }
 
 interface IStepOneState {
@@ -11,7 +11,7 @@ interface IStepOneState {
   lname: string;
 }
 
-class StepOne extends React.Component<IStepOneProps, IStepOneState> {
+class ContactCard extends React.Component<IContactCardProps, IStepOneState> {
   state: IStepOneState = {
     fname: '',
     email: '',
@@ -24,8 +24,8 @@ class StepOne extends React.Component<IStepOneProps, IStepOneState> {
   };
 
   handleClose = () => {
-    const { eventHandler } = this.props;
-    eventHandler(this.state);
+    const { onSubmit } = this.props;
+    onSubmit(this.state);
   };
 
   public render() {
@@ -82,4 +82,4 @@ class StepOne extends React.Component<IStepOneProps, IStepOneState> {
   }
 }
 
-export default StepOne;
+export default ContactCard;
