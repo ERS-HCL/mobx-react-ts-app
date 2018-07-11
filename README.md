@@ -16,6 +16,7 @@ React app based on MobX Typescript And Styled components
   - All global state change is done via @actions method calls. ( We do have local form components which maintain its local state internally)
   - Use the 'reaction' API for clearing the order once the checkout is complete
 - This application also uses styledcomponents and @hackclub/design-system which is part of the same ecosystem
+- Other aspects covered include parallax and auto scroll to new card for better user experience.
 
 ## Demo
 
