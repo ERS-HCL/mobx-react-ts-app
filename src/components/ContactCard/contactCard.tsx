@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { Flex, Button, Field, Card } from '@hackclub/design-system';
+import {
+  Flex,
+  Button,
+  Field,
+  Card,
+  Label,
+  Divider
+} from '@hackclub/design-system';
 
 interface IContactCardProps {
   onSubmit: any;
@@ -41,6 +48,8 @@ class ContactCard extends React.Component<IContactCardProps, IStepOneState> {
           bg="white"
           borderRadius={8}
         >
+          <Label f={4}>Contact Information</Label>
+          <Divider color="primary" />
           <Field
             name="fname"
             placeholder="First Name"

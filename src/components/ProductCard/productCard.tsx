@@ -1,5 +1,14 @@
 import * as React from 'react';
-import { Flex, Button, Field, Card } from '@hackclub/design-system';
+import {
+  Flex,
+  Button,
+  Field,
+  Card,
+  Label,
+  Divider,
+  Text,
+  Box
+} from '@hackclub/design-system';
 import { IProduct } from '../../models/product';
 import { observer, inject } from 'mobx-react';
 import { ShopStore } from '../../stores/shopStore';
@@ -71,9 +80,11 @@ class ProductCard extends React.Component<
   };
 
   public render() {
-    const productList = this.getProductList().map(product => (
-      <option key={product.name}>{product.name}</option>
+    const productList = this.getProductList().map(item => (
+      <option key={item.name}>{item.name}</option>
     ));
+    const { product } = this.state;
+
     return (
       <Flex justify="space-around">
         <Card
@@ -85,24 +96,36 @@ class ProductCard extends React.Component<
           bg="white"
           borderRadius={8}
         >
-          <Field
-            name="name"
-            type="select"
-            label="Select something"
-            onChange={this.handleChange}
-          >
-            <option>Select Product</option>
-            {productList}
-          </Field>
-          <Field
-            name="qty"
-            type="number"
-            label="X"
-            min={1}
-            max={100}
-            onChange={this.handleQtyChange}
-            defaultValue={this.props.qty}
-          />
+          <Label f={4}>Products</Label>
+          <Divider color="primary" />
+          <Flex>
+            <Box width={1 / 4}>
+              <Field name="name" type="select" onChange={this.handleChange}>
+                <option>Product</option>
+                {productList}
+              </Field>
+            </Box>
+            <Box width={1 / 4}>
+              <Text align="center" m={2} color={'accent'}>
+                X
+              </Text>
+            </Box>
+            <Box width={1 / 4}>
+              <Field
+                name="qty"
+                type="number"
+                min={1}
+                max={100}
+                onChange={this.handleQtyChange}
+                defaultValue={this.props.qty}
+              />
+            </Box>
+            <Box width={1 / 4}>
+              <Text align="center" m={2} color={'black'}>
+                {product.price ? product.price + ' USD' : 'Select Product'}
+              </Text>
+            </Box>
+          </Flex>
           <Flex justify="flex-end">
             <Button onClick={this.handleClose} scale={true}>
               SELECT

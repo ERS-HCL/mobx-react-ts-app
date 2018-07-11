@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';
-import { Container, Text } from '@hackclub/design-system';
+import { Container, Text, Flex } from '@hackclub/design-system';
 import { ShopStore } from '../../stores/shopStore';
 
 interface IOrderTotalProps {
@@ -20,11 +20,14 @@ interface IOrderTotalProps {
 class OrderTotal extends React.Component<IOrderTotalProps> {
   public render() {
     return (
-      <Container style={{ height: '50px' }}>
-        <Text fontSize={2}>
-          {this.props.shopStore ? this.props.shopStore.orderTotal : 0}
-        </Text>
-      </Container>
+      <Flex bg="black">
+        <Container style={{ height: '50px' }} m={2}>
+          <Text fontSize={3} color="white" bold={true}>
+            Total: {this.props.shopStore ? this.props.shopStore.orderTotal : 0}{' '}
+            USD
+          </Text>
+        </Container>
+      </Flex>
     );
   }
 }

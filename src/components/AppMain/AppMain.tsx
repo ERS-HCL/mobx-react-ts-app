@@ -9,6 +9,7 @@ import { ShopStore } from '../../stores/shopStore';
 import { IProduct } from '../../models/product';
 import { OrderStatus } from '../../models/order';
 import OrderTotal from '../OrderTotal/OrderTotal';
+import PaymentCard from '../PaymentCard/paymentCard';
 
 const image1 =
   'https://images.unsplash.com/photo-1510166089176-b57564a542b1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=befea110acdbc00f7b94c872cf76f37b';
@@ -120,13 +121,12 @@ class AppMain extends React.Component<IAppMainProps, IAppMainState> {
 
           {this.isCardVisible(OrderStatus.PAYMENT_PENDING) && (
             <div id="PAYMENT_PENDING">
-              <ContactCard onSubmit={this.handlePaymentSubmit} key={2} />
+              <PaymentCard onSubmit={this.handlePaymentSubmit} key={2} />
             </div>
           )}
         </Flex>
-        <Flex>
-          <OrderTotal />
-        </Flex>
+
+        <OrderTotal />
       </Flex>
     );
   }
