@@ -19,6 +19,7 @@ interface IOrder {
   product?: IProduct;
   payment?: IPayment;
   status: OrderStatus;
+  viewStatus: OrderStatus[]; // Holds which all steps are visible at the moment
 }
 
 export { IOrder, IContact, OrderStatus };

@@ -19,7 +19,8 @@ export class ShopStore {
       contact: this.contact,
       payment: undefined,
       product: undefined,
-      status: OrderStatus.PRODUCT_SELECTION
+      status: OrderStatus.PRODUCT_SELECTION,
+      viewStatus: []
     } as IOrder;
 
     this.order = initialOrder;
@@ -65,7 +66,12 @@ export class ShopStore {
 
   @action
   setOrderStatus = (orderStatus: OrderStatus) => {
-    this.order.status = orderStatus;
+    const currentOrder = this.order;
+    currentOrder.status = orderStatus;
+    if (this.order.viewStatus.indexOf(orderStatus) === -1) {
+      currentOrder.viewStatus.push(orderStatus);
+    }
+    this.order = currentOrder;
   };
 
   @action

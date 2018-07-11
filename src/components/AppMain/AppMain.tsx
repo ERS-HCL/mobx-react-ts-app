@@ -72,11 +72,15 @@ class AppMain extends React.Component<IAppMainProps, IAppMainState> {
   };
 
   isCardVisible = (status: OrderStatus): boolean => {
-    if (
-      typeof this.props.shopStore !== 'undefined' &&
-      this.props.shopStore.order.status === status
-    ) {
-      return true;
+    if (typeof this.props.shopStore !== 'undefined') {
+      if (this.props.shopStore.order.viewStatus.indexOf(status) > -1) {
+        return true;
+      }
+      if (this.props.shopStore.order.status === status) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
@@ -98,7 +102,7 @@ class AppMain extends React.Component<IAppMainProps, IAppMainState> {
         <Flex bg="smoke" flexDirection="column">
           <ProductCard onSubmit={this.handleProductSubmit} />
 
-          {!this.isCardVisible(OrderStatus.PRODUCT_SELECTION) && (
+          {this.isCardVisible(OrderStatus.CONTACT_INFO) && (
             <div id="CONTACT_INFO">
               <ContactCard onSubmit={this.handleContactSubmit} key={1} />
             </div>
