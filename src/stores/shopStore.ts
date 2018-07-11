@@ -18,7 +18,11 @@ export class ShopStore {
     const initialOrder = {
       contact: this.contact,
       payment: undefined,
-      product: undefined,
+      product: {
+        qty: 1,
+        name: '',
+        price: 0
+      },
       status: OrderStatus.PRODUCT_SELECTION,
       viewStatus: []
     } as IOrder;

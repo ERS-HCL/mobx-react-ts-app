@@ -8,6 +8,7 @@ import { observer, inject } from 'mobx-react';
 import { ShopStore } from '../../stores/shopStore';
 import { IProduct } from '../../models/product';
 import { OrderStatus } from '../../models/order';
+import OrderTotal from '../OrderTotal/OrderTotal';
 
 const image1 =
   'https://images.unsplash.com/photo-1510166089176-b57564a542b1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=befea110acdbc00f7b94c872cf76f37b';
@@ -37,12 +38,12 @@ class AppMain extends React.Component<IAppMainProps, IAppMainState> {
 
   handleProductSubmit = (data: any) => {
     if (typeof this.props.shopStore !== 'undefined') {
+      this.props.shopStore.setProduct(data);
       this.props.shopStore.setOrderStatus(OrderStatus.CONTACT_INFO);
     }
   };
 
   handleContactSubmit = (data: any) => {
-    console.log(data);
     if (typeof this.props.shopStore !== 'undefined') {
       this.props.shopStore.setOrderStatus(OrderStatus.PAYMENT_PENDING);
     }
@@ -88,19 +89,28 @@ class AppMain extends React.Component<IAppMainProps, IAppMainState> {
 
   public render() {
     const { checkedOut } = this.state;
-
+    let qty = 1;
+    if (typeof this.props.shopStore !== 'undefined') {
+      if (typeof this.props.shopStore.order.product !== 'undefined') {
+        qty = this.props.shopStore.order.product.qty
+          ? this.props.shopStore.order.product.qty
+          : 1;
+      }
+    }
     return (
-      <div id="home">
+      <Flex id="home" flexDirection="column" height="100%">
         {checkedOut && <Redirect to="/thankyou" />}
-        <AppHero
-          color={'black'}
-          height={500}
-          text={'React Shop'}
-          image={image1}
-        />
+        <header>
+          <AppHero
+            color={'black'}
+            height={500}
+            text={'React Shop'}
+            image={image1}
+          />
+        </header>
 
-        <Flex bg="smoke" flexDirection="column">
-          <ProductCard onSubmit={this.handleProductSubmit} />
+        <Flex bg="smoke" flexDirection="column" style={{ height: '100%' }}>
+          <ProductCard onSubmit={this.handleProductSubmit} qty={qty} />
 
           {this.isCardVisible(OrderStatus.CONTACT_INFO) && (
             <div id="CONTACT_INFO">
@@ -114,7 +124,10 @@ class AppMain extends React.Component<IAppMainProps, IAppMainState> {
             </div>
           )}
         </Flex>
-      </div>
+        <Flex>
+          <OrderTotal />
+        </Flex>
+      </Flex>
     );
   }
 }
